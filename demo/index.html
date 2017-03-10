@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>facebook-friends-selector demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../facebook-friends-selector.html">
+    <link rel="import" href="facebook-friends-selector-demo.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic facebook-friends-selector Demo</h3>
+      <demo-snippet>
+        <template>
+          <facebook-friends-selector friends="{{friends}}" facebook-token="YOUR-TOKEN-HERE"></facebook-friends-selector>
+        </template>
+      </demo-snippet>
+      <facebook-friends-selector-demo></facebook-friends-selector-demo>
+    </div>
+
+  </body>
+</html>
