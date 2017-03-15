@@ -1,0 +1,43 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+
+
+
+</head><body><dom-module id="facebook-friends-selector">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <iron-ajax id="fbFriends" url="https://graph.facebook.com/v2.8/me/friends?fields=name,picture" handle-as="json" on-response="fbFriendsHandle" method="GET"></iron-ajax>
+<paper-button>teste</paper-button>
+    <div class="scrollable-list">
+      [[friends.length]]
+      <iron-selector class="drawer-list" role="navigation">
+
+        <template is="dom-repeat" items="{{friends}}">
+          <div style="vertical">
+            <paper-button on-tap="_toggleFriend">
+              <iron-icon class="checked-icon checked-icon__left" icon="check-box" hidden$="[[!item.checked]]">
+              </iron-icon>
+              <iron-icon class="checked-icon checked-icon__left" icon="check-box-outline-blank" hidden$="[[item.checked]]">
+              </iron-icon>
+              <img class="avatar" alt="Friend" src="[[item.picture.data.url]]">
+              <span class="friend-name" title="[[item.name]]">[[item.name]]</span>
+            </paper-button>
+          </div>
+
+        </template>
+      </iron-selector>
+    </div>
+
+  </template>
+
+  <script>Polymer({is:"facebook-friends-selector",properties:{friends:{type:Array,notify:!0,reflectToAttribute:!0},facebookToken:{type:String,observer:"_facebookTokenChanged"}},_toggleFriend:function(e){e.currentTarget.friend.checked=!e.currentTarget.friend.checked},_facebookTokenChanged:function(e){""!=e&&(this.$.fbFriends.params={access_token:e},this.$.fbFriends.generateRequest())},fbFriendsHandle:function(e){this.friends=[];for(var t=0;t<e.detail.response.data.length;t++)this.push("friends",{checked:!1,id:e.detail.response.data[t].id,name:e.detail.response.data[t].name,picture:e.detail.response.data[t].picture}),this.notifyPath("friends."+t,this.friends[t]);var i=this.friends;this.friends=[],this.set("friends",i),this.notifyPath("friends.*",this.friends)}});</script>
+</dom-module>
+</body></html>

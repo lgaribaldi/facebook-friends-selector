@@ -17,6 +17,34 @@ Multiple selection list for facebook friends
       :host {
         display: block;
       }
+
+      .checked-icon {
+        display: block;
+        color: rgba(0, 0, 0, 0.4);
+        float: left;
+        padding: 8px;
+      }
+
+      .checked-icon:hover {
+        color: rgba(0, 0, 0, 0.9);
+      }
+
+      .friend-name {
+        display: block;
+        overflow: hidden;
+        padding: 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: auto;
+      }
+
+      .avatar {
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        vertical-align: middle;
+        margin-left: 16px;
+      }
     </style>
 
     <iron-ajax
@@ -25,20 +53,20 @@ Multiple selection list for facebook friends
       handle-as="json"
       on-response="fbFriendsHandle"
       method='GET'></iron-ajax>
-<paper-button>teste</paper-button>
+
     <div class="scrollable-list">
-      [[friends.length]]
+
       <iron-selector class="drawer-list" role="navigation">
 
         <template is="dom-repeat" items="{{friends}}">
           <div style="vertical">
             <paper-button on-tap="_toggleFriend">
               <iron-icon
-                class="checked-icon checked-icon__left"
+                class="checked-icon"
                 icon="check-box" hidden$="[[!item.checked]]">
               </iron-icon>
               <iron-icon
-                class="checked-icon checked-icon__left"
+                class="checked-icon"
                 icon="check-box-outline-blank" hidden$="[[item.checked]]">
               </iron-icon>
               <img class="avatar" alt="Friend" src="[[item.picture.data.url]]">
@@ -70,7 +98,7 @@ Multiple selection list for facebook friends
       },
 
       _toggleFriend: function(e) {
-         e.currentTarget.friend.checked = !e.currentTarget.friend.checked;
+         e.model.set('item.checked', !e.model.item.checked);
       },
 
       _facebookTokenChanged: function(token) {
@@ -81,17 +109,10 @@ Multiple selection list for facebook friends
       },
 
       fbFriendsHandle: function(request) {
-
         this.friends = [];
         for (var i = 0; i < request.detail.response.data.length; i++) {
           this.push("friends", {checked: false, id: request.detail.response.data[i].id, name: request.detail.response.data[i].name, picture: request.detail.response.data[i].picture} );
-          this.notifyPath("friends." + i, this.friends[i]);
         }
-        var friendsAux = this.friends;
-        this.friends = [];
-        this.set('friends', friendsAux);
-
-        this.notifyPath("friends.*", this.friends);
       }
 
     });

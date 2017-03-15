@@ -7,17 +7,13 @@
 <dom-module id="facebook-friends-selector-demo">
   <template>
     <style>
-      :host {
-        font-family: sans-serif;
-        --icon-toggle-color: lightgrey;
-        /*--icon-toggle-outline-color: black;*/
-        --icon-toggle-pressed-color: red;
-      };
     </style>
 
-    <h3>Data-boundtitulo lalala</h3>
-    <paper-input type="text" label="Your token here" id="token" value="{{myToken}}"/>
+    <paper-input type="text" label="Your token here" id="token" value="{{myToken}}"></paper-input>
+    <div style="horizontal-section-container centered">
     <facebook-friends-selector friends="{{friends}}" facebook-token="[[myToken]]"></facebook-friends-selector>
+
+  </div>
 
   </template>
 
