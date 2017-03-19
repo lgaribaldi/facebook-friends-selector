@@ -8,7 +8,23 @@
 `facebook-friends-selector`
 Multiple selection list for facebook friends
 
+Pass your facebook token and a two way bind of a friend list (array), facebook-friends-selector will create a list of friends with checkboxes for multiple selection.
+Works really well inside a paper-dialog.
+
+### Styling
+
+`<facebook-friends-selector>` provides the following custom properties and mixins
+for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--facebook-friends-selector-checked-color` | Color of the checked/unchecked icon | `rgba(0, 0, 0, 0.4)`
+`--facebook-friends-selector-hover-color` | Color of the icon when selected | `rgba(0, 0, 0, 0.9)`
+`--facebook-friends-selector-text-color` | Color of the button's text | `rgba(0, 0, 0)`
+
+@element facebook-friends-selector
 @demo demo/index.html
+
 -->
 
 <dom-module id="facebook-friends-selector">
@@ -48,7 +64,6 @@ Multiple selection list for facebook friends
 
       paper-button{
         color: var(--facebook-friends-selector-text-color, rgba(0, 0, 0));
-        background: var(--facebook-friends-selector-background-color, rgba(255, 255, 255));
       }
     </style>
 
@@ -56,7 +71,7 @@ Multiple selection list for facebook friends
       id="fbFriends"
       url="https://graph.facebook.com/v2.8/me/friends?fields=name,picture"
       handle-as="json"
-      on-response="fbFriendsHandle"
+      on-response="_fbFriendsHandle"
       method='GET'></iron-ajax>
 
     <div class="scrollable-list">
@@ -91,11 +106,13 @@ Multiple selection list for facebook friends
       is: 'facebook-friends-selector',
 
       properties: {
+        /** Your list of friends. Read this attribute to get the selected friends */
         friends: {
           type: Array,
           notify: true,
           reflectToAttribute: true
         },
+        /** Faceboook Token that you get during singUp. Be sure to specify the 'user_friends' scope */
         facebookToken: {
           type: String,
           observer: '_facebookTokenChanged'
@@ -113,7 +130,7 @@ Multiple selection list for facebook friends
         this.$.fbFriends.generateRequest();
       },
 
-      fbFriendsHandle: function(request) {
+      _fbFriendsHandle: function(request) {
         this.friends = [];
         for (var i = 0; i < request.detail.response.data.length; i++) {
           this.push("friends", {checked: false, id: request.detail.response.data[i].id, name: request.detail.response.data[i].name, picture: request.detail.response.data[i].picture} );
