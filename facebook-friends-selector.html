@@ -20,13 +20,13 @@ Multiple selection list for facebook friends
 
       .checked-icon {
         display: block;
-        color: rgba(0, 0, 0, 0.4);
+        color: var(--facebook-friends-selector-checked-color, rgba(0, 0, 0, 0.4));
         float: left;
         padding: 8px;
       }
 
       .checked-icon:hover {
-        color: rgba(0, 0, 0, 0.9);
+        color: var(--facebook-friends-selector-hover-color, rgba(0, 0, 0, 0.9));
       }
 
       .friend-name {
@@ -44,6 +44,11 @@ Multiple selection list for facebook friends
         height: 36px;
         vertical-align: middle;
         margin-left: 16px;
+      }
+
+      paper-button{
+        color: var(--facebook-friends-selector-text-color, rgba(0, 0, 0));
+        background: var(--facebook-friends-selector-background-color, rgba(255, 255, 255));
       }
     </style>
 
