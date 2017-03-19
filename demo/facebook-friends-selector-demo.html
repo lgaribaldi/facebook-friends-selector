@@ -1,6 +1,8 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../iron-icons/iron-icons.html">
 <link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../paper-dialog/paper-dialog.html">
 <link rel="import" href="../facebook-friends-selector.html">
 
 
@@ -10,10 +12,11 @@
     </style>
 
     <paper-input type="text" label="Your token here" id="token" value="{{myToken}}"></paper-input>
-    <div style="horizontal-section-container centered">
-    <facebook-friends-selector friends="{{friends}}" facebook-token="[[myToken]]"></facebook-friends-selector>
-
-  </div>
+    <paper-button on-tap="_openFriendsSelector">Open</paper-button>
+    <paper-dialog id="friendsDialog">
+      <facebook-friends-selector friends="{{friends}}" facebook-token="[[myToken]]"></facebook-friends-selector>
+      <paper-button on-tap="_closeFriendsSelector">Close</paper-button>
+    </paper-dialog>
 
   </template>
 
@@ -28,6 +31,14 @@
           type: String
         }
       },
+
+      _openFriendsSelector: function() {
+        this.$.friendsDialog.open();
+      },
+
+      _closeFriendsSelector: function() {
+        this.$.friendsDialog.close();
+      }
     });
   </script>
 </dom-module>
