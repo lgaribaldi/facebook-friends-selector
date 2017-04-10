@@ -1,0 +1,36 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../facebook-friends-selector.html">
+
+
+<dom-module id="facebook-friends-selector-demo">
+  <template>
+    <style>
+    </style>
+
+    <paper-input type="text" label="Your token here" id="token" value="{{myToken}}"></paper-input>
+    <paper-button on-tap="_openFriendsSelector">Open</paper-button>
+
+    <facebook-friends-selector id="friendsSelector" friends="{{friends}}" facebook-token="[[myToken]]"></facebook-friends-selector>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: "facebook-friends-selector-demo",
+      properties: {
+        friends: {
+          type: Array
+        },
+        myToken: {
+          type: String
+        }
+      },
+
+      _openFriendsSelector: function() {
+        this.$.friendsSelector.open();
+      }
+    });
+  </script>
+</dom-module>

@@ -2,6 +2,8 @@
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 <link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
 
 <!--
@@ -62,6 +64,10 @@ Custom property | Description | Default
         margin-left: 16px;
       }
 
+      .buttons {
+          float: right;
+      }
+
       paper-button{
         color: var(--facebook-friends-selector-text-color, rgba(0, 0, 0));
       }
@@ -76,26 +82,32 @@ Custom property | Description | Default
 
     <div class="scrollable-list">
 
-      <iron-selector class="drawer-list" role="navigation">
+      <paper-dialog id="friendsDialog">
+        <paper-dialog-scrollable>
+          <iron-selector class="drawer-list" role="navigation">
+            <template is="dom-repeat" items="{{friends}}">
+              <div style="vertical">
+                <paper-button on-tap="_toggleFriend">
+                  <iron-icon
+                    class="checked-icon"
+                    icon="check-box" hidden$="[[!item.checked]]">
+                  </iron-icon>
+                  <iron-icon
+                    class="checked-icon"
+                    icon="check-box-outline-blank" hidden$="[[item.checked]]">
+                  </iron-icon>
+                  <img class="avatar" alt="Friend" src="[[item.picture.data.url]]">
+                  <span class="friend-name" title="[[item.name]]">[[item.name]]</span>
+                </paper-button>
+              </div>
+            </template>
+          </iron-selector>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button on-tap="close">Close</paper-button>
+        </div>
+      </paper-dialog>
 
-        <template is="dom-repeat" items="{{friends}}">
-          <div style="vertical">
-            <paper-button on-tap="_toggleFriend">
-              <iron-icon
-                class="checked-icon"
-                icon="check-box" hidden$="[[!item.checked]]">
-              </iron-icon>
-              <iron-icon
-                class="checked-icon"
-                icon="check-box-outline-blank" hidden$="[[item.checked]]">
-              </iron-icon>
-              <img class="avatar" alt="Friend" src="[[item.picture.data.url]]">
-              <span class="friend-name" title="[[item.name]]">[[item.name]]</span>
-            </paper-button>
-          </div>
-
-        </template>
-      </iron-selector>
     </div>
 
   </template>
@@ -135,6 +147,19 @@ Custom property | Description | Default
         for (var i = 0; i < request.detail.response.data.length; i++) {
           this.push("friends", {checked: false, id: request.detail.response.data[i].id, name: request.detail.response.data[i].name, picture: request.detail.response.data[i].picture} );
         }
+      },
+
+      /**
+       * Opens the dialog.
+       */
+      open: function () {
+        this.$.friendsDialog.open();
+      },
+      /**
+       * Closes the dialog.
+       */
+      close: function() {
+        this.$.friendsDialog.close();
       }
 
     });
